@@ -6,6 +6,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,8 +22,13 @@ import com.seguranca.model.Pessoa;
 import com.seguranca.repository.PessoaRepository;
 import com.seguranca.service.PessoaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
-@RequestMapping("/pessoa")
+@RequestMapping("/api")
+@Api(value = "API REST Usuarios") //SW :http://localhost:8080/swagger-ui.html#/
+@CrossOrigin(origins = "*")//LIBERAR DOMINIO
 public class PessoaController {
 	
 	private final PessoaRepository pessoarRepository;
@@ -37,6 +43,7 @@ public class PessoaController {
 	
 	
 	@GetMapping("/")
+	@ApiOperation(value = "Retorna todos os usuarios")
 	public List<PessoaDTO> findAll(){
 		List<Pessoa> pessoas= pessoarRepository.findAll() ;
 		//LAMBDAS PARA CONVERTE E RETORNAR;
@@ -51,6 +58,7 @@ public class PessoaController {
 	
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Retorna um unico usuario")
 	public PessoaDTO buscarPorId(@PathVariable("id") Long id) {
 		
 		Pessoa pessoa = pessoarRepository.getOne(id);
@@ -59,6 +67,7 @@ public class PessoaController {
 	}
 	
 	@PostMapping("/save")
+	@ApiOperation(value = "Salva um usario")
 	public void salvar(@RequestBody PessoaPostDTO pessoa) {
 		Pessoa p= pessoaService.save(pessoa);
 		pessoarRepository.save(p);
@@ -68,6 +77,7 @@ public class PessoaController {
 	
 	
 	@PutMapping("/{id}")
+	@ApiOperation(value = "Altera a Senha de Um Usuario")
 	public void atualizarPessoa(@PathVariable Long id ,@RequestBody PessoaPutDTO pessoa) throws Exception {
 		
 		Pessoa p = pessoaService.alterarSenha(id, pessoa);
@@ -76,5 +86,7 @@ public class PessoaController {
 		
 	}
 	
+	
+	//CRIAR DELETE
 
 }
