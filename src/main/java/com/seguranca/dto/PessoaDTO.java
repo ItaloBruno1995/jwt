@@ -16,6 +16,7 @@ public class PessoaDTO {
 	
 	
 	
+	/*
 	//CONVERTER PESSOA PARA PESSOADTO
 	public static PessoaDTO converter(Pessoa p) {
 		PessoaDTO pessoa = new PessoaDTO();
@@ -26,5 +27,7 @@ public class PessoaDTO {
 		
 		return pessoa;
 	}
+	
+	*/
 	
 }
