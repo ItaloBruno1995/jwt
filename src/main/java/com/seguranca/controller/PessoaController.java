@@ -5,6 +5,11 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +20,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seguranca.dto.PessoaAuthenticationRequestDTO;
+import com.seguranca.dto.PessoaAuthenticationResponseDTO;
 import com.seguranca.dto.PessoaDTO;
 import com.seguranca.dto.PessoaPostDTO;
 import com.seguranca.dto.PessoaPutDTO;
+
 import com.seguranca.model.Pessoa;
 import com.seguranca.repository.PessoaRepository;
+
 import com.seguranca.service.PessoaService;
+
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,10 +44,16 @@ public class PessoaController {
 	private final PessoaRepository pessoarRepository;
 	private final PessoaService pessoaService;
 	
+	
+
 	//CONSTRUTOR( TUDO QUE CLASSE PRECISA RECEBER NO CONTRUTOR )
-	public PessoaController(PessoaRepository pessoaRepository, PessoaService pessoaService) {
+	public PessoaController(PessoaRepository pessoaRepository, PessoaService pessoaService
+							) {
 		this.pessoarRepository=pessoaRepository;
 		this.pessoaService = pessoaService;
+
+	
+		
 	}
 	
 	
@@ -81,11 +97,19 @@ public class PessoaController {
 	public void atualizarPessoa(@PathVariable Long id ,@RequestBody PessoaPutDTO pessoa) throws Exception {
 		
 		Pessoa p = pessoaService.alterarSenha(id, pessoa);
+		//ENCRIPT SENHA
+		String encodedPassword = new BCryptPasswordEncoder().encode(p.getSenha());
+		p.setSenha(encodedPassword);
 		
 		pessoarRepository.save(p);
 		
 	}
 	
+	
+	
+	//LOGIN
+	
+
 	
 	//CRIAR DELETE
 

@@ -7,11 +7,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Data;
 
+
 @Entity
-@Data
 @Table(name = "pessoa")
+@Data
 public class Pessoa {
 
 @Id
@@ -27,6 +30,14 @@ private String sobreNome;
 
 @Column(name = "senha")
 private String senha;
+
+
+
+//TESTE DTO
+
+
+
+
 
 }
 

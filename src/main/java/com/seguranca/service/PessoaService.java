@@ -2,8 +2,10 @@ package com.seguranca.service;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.seguranca.dto.PessoaAuthenticationRequestDTO;
 import com.seguranca.dto.PessoaDTO;
 import com.seguranca.dto.PessoaPostDTO;
 import com.seguranca.dto.PessoaPutDTO;
@@ -40,6 +42,8 @@ public class PessoaService {
 	public Pessoa save(PessoaPostDTO pessoaPost) {
 		Pessoa pessoa = new Pessoa();
 		
+		
+		
 		pessoa.setNome(pessoaPost.getNome());
 		pessoa.setSobreNome(pessoaPost.getSobreNome());
 		pessoa.setSenha(pessoaPost.getSenha());
@@ -60,6 +64,8 @@ public class PessoaService {
 			if(p.isPresent()) {
 				pessoaPut= p.get();
 				pessoaPut.setSenha(pessoa.getSenha());
+		//INCRIPT DE SENHA AQUI:
+				
 				
 				return pessoaPut;
 				
@@ -73,10 +79,13 @@ public class PessoaService {
 			}
 		
 		
-		
+	}
 	
-		
-	
+	public Pessoa authentication(PessoaAuthenticationRequestDTO  pessoa) {
+		Pessoa p = new Pessoa();
+		p.setNome(pessoa.getNome());
+		p.setSenha(pessoa.getSenha());
+		return p;
 		
 	}
 	
