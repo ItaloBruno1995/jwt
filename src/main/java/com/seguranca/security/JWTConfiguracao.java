@@ -43,7 +43,7 @@ public class JWTConfiguracao extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers( "/login","/configuration/ui", "/swagger-resources/**","/configuration/**","/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAutenticarFilter(authenticationManager()))

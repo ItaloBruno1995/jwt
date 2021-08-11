@@ -5,8 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seguranca.data.DetalheUsuarioData;
 import com.seguranca.dto.PessoaAuthenticationRequestDTO;
 import com.seguranca.dto.PessoaAuthenticationResponseDTO;
 import com.seguranca.dto.PessoaDTO;
@@ -28,7 +31,8 @@ import com.seguranca.dto.PessoaPutDTO;
 
 import com.seguranca.model.Pessoa;
 import com.seguranca.repository.PessoaRepository;
-
+import com.seguranca.security.JWTConfiguracao;
+import com.seguranca.service.DetalhePessoaServiceImpl;
 import com.seguranca.service.PessoaService;
 
 
@@ -43,6 +47,7 @@ public class PessoaController {
 	
 	private final PessoaRepository pessoarRepository;
 	private final PessoaService pessoaService;
+	
 	
 	
 
@@ -108,7 +113,6 @@ public class PessoaController {
 	
 	
 	//LOGIN
-	
 
 	
 	//CRIAR DELETE

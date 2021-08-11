@@ -1,45 +1,34 @@
 package com.seguranca.model;
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
 
-
 @Entity
-@Table(name = "pessoa")
+@Table(name = "AtribuicoesProficionais")
 @Data
-public class Pessoa {
+public class AtribuicoesProficionais {
 
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
-@Column(name = "nome")
-private String nome;
-
-@Column(name = "sobreNome")
-private String sobreNome;
-
-@Column(name = "senha")
-private String senha;
+@Column(name = "descricao")
+private String descricao;
 
 
+//MUITOS ATRIBUTOS PARA UMA PESSOA
+@ManyToOne(targetEntity = Pessoa.class)
+private Pessoa pessoa;
 
-
-
-
+	
 
 }
-
-
