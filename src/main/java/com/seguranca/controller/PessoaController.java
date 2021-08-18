@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,8 @@ public class PessoaController {
 	private final PessoaRepository pessoarRepository;
 	private final PessoaService pessoaService;
 	
+	@Autowired
+	private ModelMapper modelmapepr;
 	
 	
 
@@ -98,11 +101,17 @@ public class PessoaController {
 	
 		Pessoa pessoa = pessoaService.buscarPessoaPorId(id);
 		
+		
+		//CONVERTER PARA DTO
+		
+		/*
 		dto.setId(pessoa.getId());
 		dto.setNome(pessoa.getNome());
 		dto.setSobreNome(pessoa.getSobreNome());
-				
-		return dto;
+		*/		
+		
+		//CONVERTER E RETORNAR PESSOA PARA pessoaDTO
+		return modelmapepr.map(pessoa, PessoaDTO.class);
 		
 	}
 	

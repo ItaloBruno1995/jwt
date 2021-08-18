@@ -2,8 +2,10 @@ package com.seguranca.service;
 
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,14 @@ public class PessoaService {
 	//LOG:
 	private static Logger logger = LoggerFactory.getLogger(PessoaService.class);
 	
+	
+	
 	private final PessoaRepository pessoarRepository;
+	
+	//MODELMAPPER:
+	@Autowired
+	private ModelMapper modelmapepr;
+	
 	
 	public PessoaService(PessoaRepository pessoaRepository) {
 		this.pessoarRepository=pessoaRepository;
@@ -70,6 +79,7 @@ public class PessoaService {
 		
 		//VERIFICAR SE EXISTE:
 			if(p.isPresent()) {
+				
 				pessoaPut= p.get();
 				pessoaPut.setSenha(pessoa.getSenha());
 		//INCRIPT DE SENHA AQUI(?):
