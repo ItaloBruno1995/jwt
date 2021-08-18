@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.seguranca.SegurancaApplication;
 import com.seguranca.data.DetalheUsuarioData;
 import com.seguranca.dto.PessoaAuthenticationRequestDTO;
 import com.seguranca.dto.PessoaAuthenticationResponseDTO;
@@ -44,6 +47,10 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "API REST Usuarios") //SW :http://localhost:8080/swagger-ui.html#/
 @CrossOrigin(origins = "*")//LIBERAR DOMINIO
 public class PessoaController {
+	
+
+	
+	
 	
 	private final PessoaRepository pessoarRepository;
 	private final PessoaService pessoaService;
@@ -85,7 +92,10 @@ public class PessoaController {
 		/*Pessoa pessoa = pessoarRepository.getOne(id);
 		return pessoaService.converter(pessoa);
 		*/
-			
+		/*LOG*/
+		
+		
+	
 		Pessoa pessoa = pessoaService.buscarPessoaPorId(id);
 		
 		dto.setId(pessoa.getId());

@@ -1,0 +1,10 @@
+2021-08-18 16:31:41,366 INFO com.seguranca.SegurancaApplication [main] Iniciando a api
+2021-08-18 16:31:41,534 INFO com.seguranca.SegurancaApplication [restartedMain] Iniciando a api
+2021-08-18 16:31:41,818 INFO com.seguranca.SegurancaApplication [restartedMain] Starting SegurancaApplication using Java 15.0.1 on MA1-DEV-23 with PID 10832 (C:\Users\4996\eclipse-workspace\jwt\target\classes started by 4996 in C:\Users\4996\eclipse-workspace\jwt)
+2021-08-18 16:31:41,818 DEBUG com.seguranca.SegurancaApplication [restartedMain] Running with Spring Boot v2.5.2, Spring v5.3.8
+2021-08-18 16:31:41,819 INFO com.seguranca.SegurancaApplication [restartedMain] No active profile set, falling back to default profiles: default
+2021-08-18 16:31:48,198 INFO com.seguranca.SegurancaApplication [restartedMain] Started SegurancaApplication in 6.659 seconds (JVM running for 7.279)
+2021-08-18 16:31:48,202 INFO com.seguranca.SegurancaApplication [restartedMain] API Iniciada
+2021-08-18 16:32:09,973 INFO com.seguranca.service.PessoaService [http-nio-8080-exec-3] Pessoa com id: 1 encontrada
+2021-08-18 16:32:11,027 INFO com.seguranca.service.PessoaService [http-nio-8080-exec-4] Pessoa com id: 1 encontrada
+2021-08-18 16:34:41,862 INFO com.seguranca.SegurancaApplication [restartedMain] Iniciando a api

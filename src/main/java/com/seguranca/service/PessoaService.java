@@ -2,9 +2,12 @@ package com.seguranca.service;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.seguranca.SegurancaApplication;
 import com.seguranca.dto.PessoaAuthenticationRequestDTO;
 import com.seguranca.dto.PessoaDTO;
 import com.seguranca.dto.PessoaPostDTO;
@@ -14,6 +17,9 @@ import com.seguranca.repository.PessoaRepository;
 
 @Service
 public class PessoaService {
+	
+	//LOG:
+	private static Logger logger = LoggerFactory.getLogger(PessoaService.class);
 	
 	private final PessoaRepository pessoarRepository;
 	
@@ -102,10 +108,11 @@ public class PessoaService {
 		
 				
 		if(!p.isPresent()) {
+			logger.info("Pessoa com id: "+id+" Nao encontrada");
 			throw new Exception("Pessoa não encontrada para o Id: "+id);
 			
 		}else {
-			
+			logger.info("Pessoa com id: "+id+ " encontrada");
 			pessoa= p.get();
 		
 		}
