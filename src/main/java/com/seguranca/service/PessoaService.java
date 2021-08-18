@@ -53,6 +53,8 @@ public class PessoaService {
 		
 	}
 	
+	
+	//TESTE UNITARIO* 
 	//alterar senha 
 	public Pessoa alterarSenha(Long id,PessoaPutDTO pessoa) throws Exception {
 		Pessoa pessoaPut = new Pessoa();
@@ -64,9 +66,9 @@ public class PessoaService {
 			if(p.isPresent()) {
 				pessoaPut= p.get();
 				pessoaPut.setSenha(pessoa.getSenha());
-		//INCRIPT DE SENHA AQUI:
+		//INCRIPT DE SENHA AQUI(?):
 				
-				
+
 				return pessoaPut;
 				
 			}
@@ -88,6 +90,28 @@ public class PessoaService {
 		return p;
 		
 	}
+	
+	
+	
+	public Pessoa buscarPessoaPorId(Long id) throws Exception{
+	
+	
+		
+		Optional<Pessoa>  p = pessoarRepository.findById(id);
+		Pessoa pessoa = null;
+		
+				
+		if(!p.isPresent()) {
+			throw new Exception("Pessoa não encontrada para o Id: "+id);
+			
+		}else {
+			
+			pessoa= p.get();
+		
+		}
+		return pessoa;
+	}
+	
 	
 	
 	

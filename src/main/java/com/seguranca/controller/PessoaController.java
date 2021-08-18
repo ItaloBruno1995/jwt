@@ -80,12 +80,22 @@ public class PessoaController {
 	
 	@GetMapping("/{id}")
 	@ApiOperation(value = "Retorna um unico usuario")
-	public PessoaDTO buscarPorId(@PathVariable("id") Long id) {
-		
-		Pessoa pessoa = pessoarRepository.getOne(id);
+	public PessoaDTO buscarPorId(@PathVariable("id") Long id) throws Exception {
+		PessoaDTO dto = new PessoaDTO();
+		/*Pessoa pessoa = pessoarRepository.getOne(id);
 		return pessoaService.converter(pessoa);
+		*/
+			
+		Pessoa pessoa = pessoaService.buscarPessoaPorId(id);
+		
+		dto.setId(pessoa.getId());
+		dto.setNome(pessoa.getNome());
+		dto.setSobreNome(pessoa.getSobreNome());
+				
+		return dto;
 		
 	}
+	
 	
 	@PostMapping("/save")
 	@ApiOperation(value = "Salva um usario")
@@ -97,7 +107,7 @@ public class PessoaController {
 	}
 	
 	
-	@PutMapping("/{id}")
+	@PutMapping("senha/{id}")
 	@ApiOperation(value = "Altera a Senha de Um Usuario")
 	public void atualizarPessoa(@PathVariable Long id ,@RequestBody PessoaPutDTO pessoa) throws Exception {
 		
@@ -113,7 +123,8 @@ public class PessoaController {
 	
 	
 	//LOGIN
-
+	//*http://localhost:8080/login
+	//*PASSAR USERNAME E SENHA DO OBJETO
 	
 	//CRIAR DELETE
 
