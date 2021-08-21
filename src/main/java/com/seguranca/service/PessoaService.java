@@ -6,14 +6,18 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.seguranca.SegurancaApplication;
 import com.seguranca.dto.PessoaAuthenticationRequestDTO;
 import com.seguranca.dto.PessoaDTO;
 import com.seguranca.dto.PessoaPostDTO;
 import com.seguranca.dto.PessoaPutDTO;
+import com.seguranca.event.PessoaCriada;
 import com.seguranca.model.Pessoa;
 import com.seguranca.repository.PessoaRepository;
 
@@ -53,20 +57,8 @@ public class PessoaService {
 	}
 	
 	
-	//salvar 
-	public Pessoa save(PessoaPostDTO pessoaPost) {
-		Pessoa pessoa = new Pessoa();
-		
-		
-		
-		pessoa.setNome(pessoaPost.getNome());
-		pessoa.setSobreNome(pessoaPost.getSobreNome());
-		pessoa.setSenha(pessoaPost.getSenha());
-		
-		return pessoa;
-		
-		
-	}
+
+	
 	
 	
 	//TESTE UNITARIO* 
@@ -128,6 +120,64 @@ public class PessoaService {
 		}
 		return pessoa;
 	}
+	
+	
+	//SAVE
+	public Pessoa save(Pessoa pessoa) throws Exception{
+		
+		// VALIDAÇÃO ANTES DE SALVAR:
+		
+		if ( pessoa == null) {
+			throw new Exception("Objeto vazio");
+			
+		}else {
+			
+			return pessoa;
+			
+		}
+		
+		
+	}
+	
+	
+	
+	
+	//EVENTOS:
+	@Async//PROCESSAMENTO DO METODO : ASSICRONO
+	@EventListener//OUVIR
+	public void ComprovanteDePessoaCriada(PessoaCriada pessoaCriadaEvent) throws Exception {
+		Pessoa pessoa = new Pessoa();
+		
+		pessoa = buscarPessoaPorId(pessoaCriadaEvent.getId());
+		
+
+	
+		logger.info("Pessoa:  "+pessoa.getNome()+" "+pessoa.getSobreNome()+", Criada com Sucesso");
+		logger.info("Pessoa Criada com sucesso");
+		
+		
+		
+	}
+	
+	
+	//EVENTO: CRIPAR SENHA AO SALVAR DADOS NO BANCO
+	@EventListener
+	@Transactional//QUERYUPDATE
+	public void CriparSenhaAoSalvarPessoa(PessoaCriada pessoaCriadaEvent) throws Exception {
+		
+		Pessoa pessoa = new Pessoa();
+		
+		pessoa = buscarPessoaPorId(pessoaCriadaEvent.getId());
+		
+		String encodedPassword = new BCryptPasswordEncoder().encode(pessoa.getSenha());
+
+		pessoarRepository.updateCriparSenha(encodedPassword, pessoa.getId());
+	
+	}
+
+
+
+
 	
 	
 	

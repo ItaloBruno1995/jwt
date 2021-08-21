@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
+import lombok.NonNull;
 
 
 @Entity
@@ -25,12 +27,14 @@ public class Pessoa {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
+@NotNull
 @Column(name = "nome")
 private String nome;
-
+@NotNull
 @Column(name = "sobreNome")
 private String sobreNome;
 
+@NotNull
 @Column(name = "senha")
 private String senha;
 

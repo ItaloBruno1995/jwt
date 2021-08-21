@@ -5,10 +5,14 @@ import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,6 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +37,7 @@ import com.seguranca.dto.PessoaAuthenticationResponseDTO;
 import com.seguranca.dto.PessoaDTO;
 import com.seguranca.dto.PessoaPostDTO;
 import com.seguranca.dto.PessoaPutDTO;
-
+import com.seguranca.event.PessoaCriada;
 import com.seguranca.model.Pessoa;
 import com.seguranca.repository.PessoaRepository;
 import com.seguranca.security.JWTConfiguracao;
@@ -42,6 +47,7 @@ import com.seguranca.service.PessoaService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javassist.expr.NewArray;
 
 @RestController
 @RequestMapping("/api")
@@ -51,7 +57,9 @@ public class PessoaController {
 	
 
 	
-	
+	//EVENTOS:
+	@Autowired
+	private ApplicationEventPublisher publisherEvent;
 	
 	private final PessoaRepository pessoarRepository;
 	private final PessoaService pessoaService;
@@ -117,11 +125,15 @@ public class PessoaController {
 	
 	
 	@PostMapping("/save")
-	@ApiOperation(value = "Salva um usario")
-	public void salvar(@RequestBody PessoaPostDTO pessoa) {
+	@ApiOperation(value = "Salva um usuario")
+	public void salvar(@RequestBody Pessoa pessoa, HttpServletResponse response) throws Exception{
+
 		Pessoa p= pessoaService.save(pessoa);
 		pessoarRepository.save(p);
 		
+		//ACIONAR EVENTO
+		this.publisherEvent.publishEvent(new PessoaCriada( pessoa,response));
+
 		
 	}
 	
